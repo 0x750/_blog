@@ -15,8 +15,11 @@ const IndexPage = () => (
       keywords={["powershell", "learning", "Active Directory"]}
     />
 
-    <h1>Why you should consider learning PowerShell</h1>
-
+    <div>
+      <code>{new Date("2021/04/18").toDateString(``)}</code>
+    </div>
+    <h1>Considering PowerShell as a daily driver</h1>
+    <hr />
     <StaticImage
       src="../../images/learning-powershell/computer.jpg"
       width={1000}
@@ -69,8 +72,13 @@ const IndexPage = () => (
     <p>
       To start Powershell, launch it from the Windows menu or from the{" "}
       <code>Windows</code> + <code>X</code> menu.
-      <br />A shell window will appear.
+      <br />A shell window will appear with the following text :
     </p>
+
+    <SyntaxHighlighter language="plaintext" style={a11yDark}>
+      {`PS C:\\Users\\your.username>`}
+    </SyntaxHighlighter>
+    <br />
 
     <h2>Checking your installation</h2>
 
@@ -79,7 +87,7 @@ const IndexPage = () => (
       <code>$PSVersionTable</code> command, as the following snippet :
     </p>
     <Prism language="powershell" style={a11yDark}>
-      {`PS C:\\Users\\your.username> $PSVersionTable`}
+      {`$PSVersionTable`}
     </Prism>
     <br />
     <p>
@@ -87,7 +95,7 @@ const IndexPage = () => (
       of the variable named <em>PSVersionTable</em>. If the output looks similar
       to the following, then PowerShell is installed and running properly.
     </p>
-    <SyntaxHighlighter language="plaintext" style={a11yDark}>
+    <SyntaxHighlighter style={a11yDark}>
       {`Name                           Value
 ----                           -----
 PSVersion                      5.1.19041.906
@@ -166,7 +174,7 @@ SerializationVersion           1.1.0.1`}
       the first one is considered best practice and also more readable.
     </p>
 
-    <SyntaxHighlighter language="plaintext" style={a11yDark}>
+    <SyntaxHighlighter style={a11yDark}>
       {`Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
 -------  ------    -----      -----     ------     --  -- -----------
     686      32    74240      87484       1,17   6856   1 powershell
