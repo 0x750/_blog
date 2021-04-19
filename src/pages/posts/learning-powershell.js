@@ -1,7 +1,8 @@
 import * as React from "react"
 // import { Link } from "gatsby"
 import { StaticImage } from "gatsby-plugin-image"
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
+import SyntaxHighlighter from "react-syntax-highlighter"
+import { Prism } from "react-syntax-highlighter"
 import { a11yDark } from "react-syntax-highlighter/dist/esm/styles/prism"
 
 import Layout from "../../components/layout"
@@ -48,23 +49,22 @@ const IndexPage = () => (
 
     <h2>What is PowerShell ?</h2>
 
-    <p>
-      PowerShell is :
-      <ul>
-        <li style={{ marginBottom: "inherit" }}>
-          A <strong>shell</strong>, that runs commands and scripts, but unlike
-          text based shell like <code>*sh</code>, it will accept and return
-          objects.
-        </li>
-        <li style={{ marginBottom: "inherit" }}>
-          A <strong>task-based typed interpreted language</strong> built on{" "}
-          <code>.NET</code>, used for managing systems.
-        </li>
-        <li style={{ marginBottom: "inherit" }}>
-          A <strong>configuration management framework</strong>.
-        </li>
-      </ul>
-    </p>
+    <span>PowerShell is :</span>
+    <ul>
+      <li style={{ marginBottom: "inherit" }}>
+        A <strong>shell</strong>, that runs commands and scripts, but unlike
+        text based shell like <code>*sh</code>, it will accept and return
+        objects.
+      </li>
+      <li style={{ marginBottom: "inherit" }}>
+        A <strong>task-based typed interpreted language</strong> built on{" "}
+        <code>.NET</code>, used for managing systems.
+      </li>
+      <li style={{ marginBottom: "inherit" }}>
+        A <strong>configuration management framework</strong>.
+      </li>
+    </ul>
+
     <h2>Starting PowerShell</h2>
     <p>
       To start Powershell, launch it from the Windows menu or from the{" "}
@@ -78,9 +78,9 @@ const IndexPage = () => (
       To check your PowerShell installation, run the{" "}
       <code>$PSVersionTable</code> command, as the following snippet :
     </p>
-    <SyntaxHighlighter language="powershell" style={a11yDark}>
+    <Prism language="powershell" style={a11yDark}>
       {`PS C:\\Users\\your.username> $PSVersionTable`}
-    </SyntaxHighlighter>
+    </Prism>
     <br />
     <p>
       Running the <code>$PSVersionTable</code> command will output the content
@@ -114,7 +114,7 @@ SerializationVersion           1.1.0.1`}
       {"functionCall(param1, param2);"}
     </SyntaxHighlighter>
     <br />
-    <p>Powershell is different and command calls are built like this : </p>
+    <p>Powershell is different and command calls are written like this : </p>
     <SyntaxHighlighter language="plaintext" style={a11yDark}>
       {`Verb-Noun -Param1 'Value' -Param2 $CanBeAVariable`}
     </SyntaxHighlighter>
@@ -122,12 +122,66 @@ SerializationVersion           1.1.0.1`}
     <h2>Objects ?</h2>
     <p>
       The true power of PowerShell is its ability to manipulate{" "}
-      <code>.NET</code> objects. For exemple, to get the process for the current
-      powershell window opened :
+      <code>.NET</code> objects. For exemple, to get all the processes, run the
+      following command :
     </p>
-    <SyntaxHighlighter language="powershell" style={a11yDark}>
-      {'Get-Process -Name Powershell'}
+    <Prism language="powershell" style={a11yDark}>
+      {"Get-Process"}
+    </Prism>
+    <br />
+    <p>
+      The output will show you a list of object, each one corresponding to a
+      process running on your computer.
+    </p>
+
+    <h3>Filtering the output</h3>
+
+    <p>
+      Let's say you only want the PowerShell process(es) running on your
+      computer.
+    </p>
+
+    <p>
+      You can run the commande with the parameter <code>Name</code>, the command
+      will only return the process with the name that you passed to the
+      parameter.
+    </p>
+
+    <Prism language="powershell" style={a11yDark}>
+      {`Get-Process -Name "powershell"`}
+    </Prism>
+    <br />
+    <p>
+      Alternatively you can filter the output, manipulating directly the array
+      of <code>.NET</code>
+      objects, like so :
+    </p>
+
+    <Prism language="powershell" style={a11yDark}>
+      {`Get-Process | Where-Object { $_.ProcessName -eq "powershell" }`}
+    </Prism>
+    <br />
+    <p>
+      Both commands will return the same array of <code>.NET</code> objects, but
+      the first one is considered best practice and also more readable.
+    </p>
+
+    <SyntaxHighlighter language="plaintext" style={a11yDark}>
+      {`Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
+-------  ------    -----      -----     ------     --  -- -----------
+    686      32    74240      87484       1,17   6856   1 powershell
+    447      28    63160      13392       7,09  10092   1 powershell`}
     </SyntaxHighlighter>
+    <br />
+    <p>
+      Once you filtered your objects, you can pass them to another command,
+      let's gracefully close all PowerShell instances running on your computer
+      with one command :
+    </p>
+
+    <Prism language="powershell" style={a11yDark}>
+      {`Get-Process -Name "powershell" | Stop-Process`}
+    </Prism>
   </Layout>
 )
 
